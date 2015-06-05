@@ -1,0 +1,21 @@
+﻿@using WebGridImplementacao.Models
+
+@{
+    ViewBag.Title = "Chart";
+}
+
+<h2>Usando ChartHelper</h2>
+
+@{
+    var pessoas = Pessoa.GetPessoas();
+    var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Vanilla3D)
+        .AddTitle("Grafico de Pessoa")
+        //.AddSeries(name: "Alunos", chartType: "Line",
+        //    xValue: new[] {"Luciano", "Maria", "Jurema", "Paulo", "Camila"},
+        //    yValues: new[] {"3", "7", "4", "5", "2"})
+        .AddSeries(name: "Pessoas", chartType:"Line",
+        xValue: pessoas, xField: "Nome",
+        yValues: pessoas, yFields: "Idade")
+        .Write();
+}
+
