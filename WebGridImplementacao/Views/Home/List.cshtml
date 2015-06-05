@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebGridImplementacao.Models.Pessoa>
+
+@{
+    ViewBag.Title = "Aprendendo a usar WebGrid";
+}
+
+<h2>Lista de Pessoas</h2>
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+<div style="width: 100%">
+    @{
+        WebGrid grid = new WebGrid();
+        grid.Bind(source: Model, columnNames: new string[] { "Id", "Nome", "Email", "Endereco" }, autoSortAndPage: true);
+
+        @grid.GetHtml(tableStyle: "webgrid",
+    headerStyle: "webgrid-header",
+    footerStyle: "webgrid-header",
+    alternatingRowStyle: "webgrid-alternating-row",
+    selectedRowStyle: "webgrid-selected-row",
+    rowStyle: "webgrid-row-style",
+                //caption: "Listagem de Pessoas",
+                //displayHeader: true,
+    mode: WebGridPagerModes.All, firstText: "<< Primeiro", previousText: "< Anterior", nextText: "Próximo >", lastText: "Último >>",
+    numericLinksCount: 5,
+    columns: grid.Columns(
+                //grid.Column(header: "Selecione", style: "text-align-center", format: (item) => item.GetSelectLink()),
+                //grid.Column("Select", "Selecione", format: @<i>@item.GetSelectLink("Select")</i>),
+                //grid.Column(header: "Selecione", format: @<text><input type="checkbox" value="@item.Id" /></text>),
+                        grid.Column(format: (item) => Html.CheckBox("Id")),
+                        grid.Column("Id", header: "Identificação", style: "text-align-center", format: @<i>@item.Id</i>),
+                        grid.Column("Nome", header: "Nome", format: @<i>@item.Nome</i>),
+                        grid.Column("Email", header: "E-mail", format: @<i>@item.Email</i>),
+                        grid.Column("Endereco", header: "Endereço", format: @<i>@item.Endereco</i>),
+                        grid.Column("Id", header: "Ação", canSort:false,
+                                                format: @<text>
+                            @Html.Raw("<img src='/Imagens/edita.png' title='Edita' onclick='EditaProduto(" + item.Id + ")'/>")
+                            @Html.Raw("<img src='/Imagens/deleta.png' title='Deleta' onclick='DeletaProduto(" + item.Id + ")'/>")
+                                                </text>)
+                                                                                                 )
+                                                                                             );
+    }
+</div>
